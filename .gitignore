@@ -8,5 +8,8 @@ configtest.js
 # Data
 data
 
+#logs
+logs
+
 # VSCode
 .vscode

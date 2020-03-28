@@ -328,6 +328,10 @@ Would you like to ban all ${client.raidJoins.length} members that joined in the 
           return;
         }
         switch (tweet.user.id) {
+          case 14419638:
+            // modtv1337
+            client.twitterHook.send(`@${tweet.user.screen_name.toLowerCase()} tweeted this on ${moment.utc(tweet.created_at, 'ddd MMM DD HH:mm:ss ZZ YYYY').format('MMMM D, YYYY [at] h:mmA [UTC:]')}\nhttp://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`, { username: 'TristanTwitterTest', avatarURL: `${tweet.user.profile_image_url_https}` });
+            break;
           case 853812637:
             // Tristan
             client.twitterHook.send(`@${tweet.user.screen_name.toLowerCase()} tweeted this on ${moment.utc(tweet.created_at, 'ddd MMM DD HH:mm:ss ZZ YYYY').format('MMMM D, YYYY [at] h:mmA [UTC:]')}\nhttp://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`, { username: 'TristanTwitterTest', avatarURL: `${tweet.user.profile_image_url_https}` });

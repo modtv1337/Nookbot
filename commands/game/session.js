@@ -21,7 +21,7 @@ module.exports.run = (client, message, args) => {
     lastNum += 1;
     message.guild.channels.create(`session-${lastNum}`, {
       type: 'voice',
-      bitrate: 384000,
+      bitrate: 128000,
       userLimit: size,
       parent: client.config.sesCategory,
       position: lastNum + 1,
