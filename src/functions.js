@@ -4,6 +4,38 @@ const moment = require('moment');
 const { compareTwoStrings: distance } = require('string-similarity');
 
 module.exports = (client) => {
+  client.getSettings = (guild) => {
+    const defaultsettings = {
+
+      // Settings
+      prefix: client.config.prefix,
+      verifiedRole: client.config.verifiedRole,
+      modRole: client.config.modRole,
+      adminRole: client.config.adminRole,
+      staffChat: client.config.staffChat,
+      actionLog: client.config.actionLog,
+      joinLeaveLog: client.config.joinLeaveLog,
+      modLog: client.config.modLog,
+      musicText: client.config.musicText,
+      music: client.config.music,
+      sesReqText: client.config.sesReqText,
+      sesCategory: client.config.sesCategory,
+
+      // Image-Only channels
+      imageOnlyChannels: client.config.imageOnlyChannels,
+
+    };
+
+    client.settings.ensure('default', defaultsettings);
+
+    if (!guild) {
+      return client.settings.get('default');
+    }
+
+    const guildConf = client.settings.get(guild.id) || {};
+    return ({ ...client.settings.get('default'), ...guildConf });
+  };
+
   client.permLevel = (message) => {
     let permName = 'User';
     let permlvl = 0;
