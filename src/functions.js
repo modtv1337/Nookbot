@@ -207,8 +207,8 @@ module.exports = (client) => {
     const staffChat = guild.channels.cache.get(client.config.staffChat);
     const joinLeaveLog = guild.channels.cache.get(client.config.joinLeaveLog);
 
-    const generalChat = guild.channels.cache.get('538938170822230026');
-    const acnhChat = guild.channels.cache.get('494376688877174785');
+    const generalChat = guild.channels.cache.get('152144834604433408');
+    const acnhChat = guild.channels.cache.get('4680106844420571174');
     const raidMsg = "**Raid Ongoing**!\nWe're sorry to inconvenience everyone, but we've restricted all message sending capabilities due to a suspected raid. Don't worry though, you'll be back to chatting about your favorite game in no time, yes yes!";
     const noMoreRaidMsg = "**Raid Mode Has Been Lifted**!\nWe've determined that it's safe to lift raid mode precautions and allow everyone to send messages again! Channels should open up again immediately, yes yes!";
 
