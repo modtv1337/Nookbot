@@ -1,33 +1,42 @@
 const { findBestMatch: findBest } = require('string-similarity');
 
 module.exports.run = (client, message, args) => {
-  switch (args[0] && args[0].toLowerCase()) {
+  let villager;
+  let msg;
+  let first;
+  switch (args[0]) {
     case 'list':
     case 'l':
-    case 'show': {
-      const msg = [];
+    case 'show':
+      msg = 'You are on the list to adopt the following villagers:\n';
+      first = true;
       client.villagerDB.map((v, k) => ({ name: k, adopters: v.adopters })).forEach((v) => {
         if (v.adopters.includes(message.author.id)) {
-          msg.push(v.name);
+          if (first) {
+            msg += v.name;
+            first = false;
+          } else {
+            msg += `, ${v.name}`;
+          }
         }
       });
 
-      if (msg.length > 0) {
-        return message.channel.send(`You are on the list to adopt the following villagers:\n${msg.join(', ')}.`, { split: true });
+      msg += '.';
+      if (!first) {
+        return message.channel.send(msg, { split: true });
       }
       return client.error(message.channel, 'Not Signed Up!', 'You are not signed up to adopt any villagers!\nYou can sign up to adopt any villager by using the `.adopt <villager name>` command.');
-    }
     case 'delete':
     case 'del':
     case 'd':
     case 'cancel':
-    case 'remove': {
+    case 'remove':
       if (args.length === 1) {
         // No villager name was given
         return client.error(message.channel, 'No Villager Name Given!', 'You must supply a villager name to be removed from the adoption list for that villager!');
       }
 
-      const villager = findBest(args.slice(1).join(' '), client.villagerDB.keyArray()).bestMatch;
+      villager = findBest(args.slice(1).join(' '), client.villagerDB.keyArray()).bestMatch;
       if (villager.rating > 0.1) {
         // Remove user ID of author from the list of adopters for the given villager if they are on the list already
         if (client.villagerDB.getProp(villager.target, 'adopters').includes(message.author.id)) {
@@ -37,33 +46,30 @@ module.exports.run = (client, message, args) => {
         return client.error(message.channel, 'Not on the List!', `You were not on the list to adopt **${villager.target}**!`);
       }
       return client.error(message.channel, 'Incorrect Villager Name!', 'Could not find a villager with that name!');
-    }
-    default: {
+    default:
       if (args.length === 0) {
         // No villager name was given
         return client.error(message.channel, 'No Villager Name Given!', 'You must supply a villager name to be added to the adoption list for that villager!');
       }
 
-      const villager = findBest(args.join(' '), client.villagerDB.keyArray()).bestMatch;
+      villager = findBest(args.join(' '), client.villagerDB.keyArray()).bestMatch;
       if (villager.rating > 0.1) {
         const vilAdopters = client.villagerDB.get(villager.target).adopters;
         if (!vilAdopters.includes(message.author.id)) {
           // Add them to the list
           client.villagerDB.pushIn(villager.target, 'adopters', message.author.id);
-          return client.success(message.channel, 'Added to the List!', `You will be pinged when someone offers **${villager.target}** for adoption!`);
+          return client.success(message.channel, 'Added to the List!', `Your name was added to the list of members that wish to adopt **${villager.target}**, and you will be pinged when someone offers them for adoption!\n**Remember**: It is up to whoever is offering the villager who they give the villager to, and being first to respond or first on the list doesn't mean you will be given the villager.`);
         }
         return client.error(message.channel, 'Already on the List!', `Your name was already on the list to adopt **${villager.target}**!`);
       }
       return client.error(message.channel, 'Incorrect Villager Name!', 'Could not find a villager with that name!');
-    }
   }
 };
 
 module.exports.conf = {
-  guildOnly: true,
+  guildOnly: false,
   aliases: ['ad'],
   permLevel: 'User',
-  blockedChannels: ['669696796024504341'],
 };
 
 module.exports.help = {

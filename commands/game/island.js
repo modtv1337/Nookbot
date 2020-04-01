@@ -171,7 +171,7 @@ module.exports.run = async (client, message, args, level, Discord) => {
       if (!memberID) {
         memberID = message.author.id;
       }
-      
+
       if (args.length === 1) {
         return client.error(message.channel, 'No Value To Remove!', 'Please supply the value you would like to remove! (islandname/fruit/charactername/hemisphere/profilename/friendcode)');
       }
