@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 module.exports.run = async (client, message, args, level) => {
-  const modMailCh = client.guilds.cache.first().channels.cache.get(client.config.modMail);
+  const reportMailCh = client.guilds.cache.first().channels.cache.get(client.config.reportMail);
 
-  if (message.channel.id === client.config.modMail || message.channel.id === client.config.reportMail) {
-    // This was sent in the staff channel, so they are trying to reply to modmail.
+  if (message.channel.id === client.config.reportMail || message.channel.id === client.config.modMail) {
+    // This was sent in the staff channel, so they are trying to reply to the report.
     let member = message.mentions.members.first();
     if (!member) {
       if (parseInt(args[0], 10)) {
@@ -24,8 +24,8 @@ module.exports.run = async (client, message, args, level) => {
       const dmCh = await member.createDM();
       const attachments = message.attachments.map((a) => a.url);
 
-      await dmCh.send(`__**Mod Mail Response**__\n**${message.author.tag}** (${message.author.id}) : ${args.slice(1).join(' ')}`, { split: true, files: attachments });
-      client.success(message.channel, 'Mod Mail Response Sent!', `I've successfully sent your response to **${member.guild ? member.user.tag : member.tag || member}**!`);
+      await dmCh.send(`__**Report Response**__\n**${message.author.tag}** (${message.author.id}) : ${args.slice(1).join(' ')}`, { split: true, files: attachments });
+      client.success(message.channel, 'Report Response Sent!', `I've successfully sent your response to **${member.guild ? member.user.tag : member.tag || member}**!`);
       return;
     } catch (err) {
       client.error(message.channel, 'Unable to DM that Member!', 'The user must have their DMs closed or is otherwise unavailable.');
@@ -34,7 +34,7 @@ module.exports.run = async (client, message, args, level) => {
   }
 
   if (args.length === 0) {
-    const initMsg = `Hello **${message.author.username}!** You've initiated Mod Mail communication! I'll direct your next message to the staff channel so go ahead, I'm listening!`;
+    const initMsg = `Hello **${message.author.username}!** You've initiated Report communication! I'll direct your next message to the staff channel so go ahead, I'm listening!`;
     const dmCh = await message.author.createDM();
     if (message.guild) {
       message.delete().catch((err) => console.error(err));
@@ -52,34 +52,34 @@ module.exports.run = async (client, message, args, level) => {
     await dmCh.awaitMessages(filter, { max: 1, time: 180000, errors: ['time'] })
       .then(async (collected) => {
         const attachments = collected.first().attachments.map((a) => a.url);
-        await modMailCh.send(`**${message.author.tag}** (${message.author}) : ${collected.first().content}`, { split: true, files: attachments });
-        await client.success(dmCh, 'Sent!', 'Orville has successfully sent your postcard to Resident Services!');
+        await reportMailCh.send(`**${message.author.tag}** (${message.author}) : ${collected.first().content}`, { split: true, files: attachments });
+        await client.success(dmCh, 'Sent!', 'Orville has successfully sent your report to Resident Services!');
       })
       .catch(() => {
-        client.error(dmCh, "Time's Up!", "Time has expired! You'll have to run the command again if you want to send a message to the staff!");
+        client.error(dmCh, "Time's Up!", "Time has expired! You'll have to run the command again if you want to send a report to the staff!");
       });
   } else {
     const attachments = message.attachments.map((a) => a.url);
-    await modMailCh.send(`**${message.author.tag}** (${message.author}) : ${args.join(' ')}`, { split: true, files: attachments });
+    await reportMailCh.send(`**${message.author.tag}** (${message.author}) : ${args.join(' ')}`, { split: true, files: attachments });
     // Remove the message from the guild chat as it may contain sensitive information.
     if (message.guild) {
       message.delete().catch((err) => console.error(err));
     }
-    await client.success(message.channel, 'Sent!', 'Orville has successfully sent your postcard to Resident Services!');
+    await client.success(message.channel, 'Sent!', 'Orville has successfully sent your report to Resident Services!');
   }
 };
 
 module.exports.conf = {
   guildOnly: false,
-  aliases: ['mod', 'mail', 'mm'],
+  aliases: ['scam', 'scammer'],
   permLevel: 'User',
   cooldown: 60,
 };
 
 module.exports.help = {
-  name: 'modmail',
+  name: 'report',
   category: 'moderation',
-  description: 'Sends the provided message to the staff channel',
-  usage: 'modmail <message>',
+  description: 'Report a member for scamming to the staff',
+  usage: 'report <message>',
   details: 'message => Anything you wish to report to the staff team',
 };

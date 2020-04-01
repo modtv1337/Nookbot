@@ -132,7 +132,7 @@ If you wish to contact the moderators about your warning, please use the \`.modm
   // Perform the required action
   if (ban) {
     await message.guild.members.ban(member, { reason }).catch((err) => {
-      client.error(message.guild.channels.cache.get(client.getSettings(message.guild).modLog), 'Ban Failed!', `I've failed to ban this member! ${err}`);
+      client.error(message.guild.channels.cache.get(client.config.modLog), 'Ban Failed!', `I've failed to ban this member! ${err}`);
     });
   } else if (mute) {
     try {
@@ -140,16 +140,22 @@ If you wish to contact the moderators about your warning, please use the \`.modm
       client.userDB.set(member.id, (mute * 60000) + time, 'unmuteTime');
       const guildMember = await message.guild.members.fetch(member);
       await guildMember.roles.add('495854925054607381', reason);
+
+      // Kick and mute/deafen member if in voice
+      if (guildMember.voice.channel) {
+        guildMember.voice.kick();
+      }
+
       // Schedule unmute
       setTimeout(() => {
         if ((client.userDB.get(member.id, 'unmuteTime') || 0) < Date.now()) {
           guildMember.roles.remove('495854925054607381', `Scheduled unmute after ${mute} minutes.`).catch((err) => {
-            client.error(message.guild.channels.cache.get(client.getSettings(message.guild).modLog), 'Unmute Failed!', `I've failed to unmute this member! ${err}\nID: ${member.id}`);
+            client.error(message.guild.channels.cache.get(client.config.modLog), 'Unmute Failed!', `I've failed to unmute this member! ${err}\nID: ${member.id}`);
           });
         }
       }, mute * 60000);
     } catch (err) {
-      client.error(message.guild.channels.cache.get(client.getSettings(message.guild).modLog), 'Mute Failed!', `I've failed to mute this member! ${err}`);
+      client.error(message.guild.channels.cache.get(client.config.modLog), 'Mute Failed!', `I've failed to mute this member! ${err}`);
     }
   }
 
@@ -168,7 +174,7 @@ If you wish to contact the moderators about your warning, please use the \`.modm
     .addField('Total Stings', curPoints + newPoints, true)
     .setFooter(`ID: ${member.id}`)
     .setTimestamp();
-  return message.guild.channels.cache.get(client.getSettings(message.guild).modLog).send(embed);
+  return message.guild.channels.cache.get(client.config.modLog).send(embed);
 };
 
 module.exports.conf = {
