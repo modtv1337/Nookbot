@@ -1,9 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 module.exports.run = async (client, message, args, level) => {
-  // #staff-discussion but the name might change so the id is best
-  const modMailCh = client.guilds.cache.first().channels.cache.get('679053765030182931');
+  const modMailCh = client.guilds.cache.first().channels.cache.get(client.config.modMail);
 
-  if (message.channel === modMailCh) {
+  if (message.channel.id === client.config.modMail || message.channel.id === client.config.reportMail) {
     // This was sent in the staff channel, so they are trying to reply to modmail.
     let member = message.mentions.members.first();
     if (!member) {
@@ -26,7 +25,7 @@ module.exports.run = async (client, message, args, level) => {
       const attachments = message.attachments.map((a) => a.url);
 
       await dmCh.send(`__**Mod Mail Response**__\n**${message.author.tag}** (${message.author.id}) : ${args.slice(1).join(' ')}`, { split: true, files: attachments });
-      client.success(modMailCh, 'Mod Mail Response Sent!', `I've successfully sent your response to **${member.guild ? member.user.tag : member.tag || member}**!`);
+      client.success(message.channel, 'Mod Mail Response Sent!', `I've successfully sent your response to **${member.guild ? member.user.tag : member.tag || member}**!`);
       return;
     } catch (err) {
       client.error(message.channel, 'Unable to DM that Member!', 'The user must have their DMs closed or is otherwise unavailable.');
@@ -54,7 +53,7 @@ module.exports.run = async (client, message, args, level) => {
       .then(async (collected) => {
         const attachments = collected.first().attachments.map((a) => a.url);
         await modMailCh.send(`**${message.author.tag}** (${message.author}) : ${collected.first().content}`, { split: true, files: attachments });
-        await client.success(dmCh, 'Sent!', 'Pete has delivered your message safely to the Town Hall!');
+        await client.success(dmCh, 'Sent!', 'Orville has successfully sent your postcard to Resident Services!');
       })
       .catch(() => {
         client.error(dmCh, "Time's Up!", "Time has expired! You'll have to run the command again if you want to send a message to the staff!");
@@ -66,7 +65,7 @@ module.exports.run = async (client, message, args, level) => {
     if (message.guild) {
       message.delete().catch((err) => console.error(err));
     }
-    await client.success(message.channel, 'Sent!', 'Pete has delivered your message safely to the Town Hall!');
+    await client.success(message.channel, 'Sent!', 'Orville has successfully sent your postcard to Resident Services!');
   }
 };
 

@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 const config = {
   token: '',
+
+  // Twitter
   twitterAPIKey: '',
   twitterAPISecret: '',
   twitterAccessToken: '',
@@ -11,22 +13,48 @@ const config = {
   twitterHookID: '',
   twitterHookToken: '',
 
+  // Raid Settings
+  raidJoinsPerSecond: 10,
+  raidJoinCount: 10,
+
   // Settings
-  defaultSettings: {
-    prefix: '.',
-    verifiedRole: 'Islander',
-    modRole: 'Nooklings (mod)',
-    adminRole: 'Tom Nook (admin)',
-    staffChat: 'channelID',
-    actionLog: 'channelID',
-    modLog: 'channelID',
-    musicText: 'channelID',
-    music: 'channelID',
-  },
+  prefix: '.',
+  verifiedRole: 'Islander',
+  modRole: 'Nooklings (mod)',
+  adminRole: 'Tom Nook (admin)',
+  staffChat: 'channelID',
+  modMail: 'channelID',
+  reportMail: 'channelID',
+  actionLog: 'channelID',
+  joinLeaveLog: 'channelID',
+  modLog: 'channelID',
+  musicText: 'channelID',
+  music: 'channelID',
+  sesReqText: 'channelID',
+  sesCategory: 'channelID',
+  calendar: 'channelID',
+
+  // Image-Only channels
+  imageOnlyChannels: ['channelID'],
+
+  // Reputation Settings
+  negativeRepLimit: 20,
+  positiveRepLimit: 20,
 
   // UserDB
   userDBDefaults: {
     friendcode: '',
+    island: {
+      islandName: '',
+      fruit: '',
+      characterName: '',
+      hemisphere: '',
+      profileName: '',
+    },
+    positiveRep: 0,
+    negativeRep: 0,
+    posRepList: [],
+    negRepList: [],
     roles: [],
     nicknames: [],
     usernames: [],
@@ -34,17 +62,14 @@ const config = {
     unmuteTime: 0,
   },
 
-  // VillagerDB 
-  villagerDBDefaults: {
-    birthday: Date,
-    adopters: [],
-    // Other villager related info perhaps for the wiki command to pull from, or the calender
-  },
-
   // Bot Perms and Stuff
   ownerID: 'userID',
 
   admins: ['userID', 'userID'],
+
+  ignoreMember: ['userID'],
+
+  ignoreChannel: ['channelID'],
 
   support: ['userID', 'userID'],
 
