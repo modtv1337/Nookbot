@@ -171,8 +171,12 @@ module.exports.run = async (client, message, args, level, Discord) => {
       if (!memberID) {
         memberID = message.author.id;
       }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
+=======
+      
+>>>>>>> parent of 5a7f403... updated code from main branch/ launguage
       if (args.length === 1) {
 =======
       if ((args[0].toLowerCase() === 'mod' && level >= 2) ? args.length === 2 : args.length === 1) {

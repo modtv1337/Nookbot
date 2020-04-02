@@ -5,12 +5,17 @@ module.exports.run = (client, message, args, level, Discord) => {
     .then(() => {
       client.success(message.channel, 'Server Locked Down!', 'No one can send messages until the server is unlocked! To unlock the server, use \`.unlockdown\`.');
 <<<<<<< HEAD
+<<<<<<< HEAD
       const generalChat = guild.channels.cache.get('5152144834604433408');
       const acnhChat = guild.channels.cache.get('680106844420571174');
 =======
       const generalChat = message.guild.channels.cache.get('538938170822230026');
       const acnhChat = message.guild.channels.cache.get('494376688877174785');
 >>>>>>> devbranchpull/develop
+=======
+      const generalChat = guild.channels.cache.get('538938170822230026');
+      const acnhChat = guild.channels.cache.get('494376688877174785');
+>>>>>>> parent of 5a7f403... updated code from main branch/ launguage
       const msg = "**Raid Ongoing**!\nWe're sorry to inconvenience everyone, but we've restricted all message sending capabilities due to a suspected raid. Don't worry though, you'll be back to chatting about your favorite game in no time, yes yes!";
       generalChat.send(msg);
       acnhChat.send(msg);
