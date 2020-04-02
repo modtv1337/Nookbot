@@ -71,7 +71,7 @@ module.exports.run = async (client, message, args, level) => {
 
 module.exports.conf = {
   guildOnly: false,
-  aliases: ['scam', 'scammer'],
+  aliases: ['rep', 'scam', 'scammer'],
   permLevel: 'User',
   cooldown: 60,
 };

@@ -172,21 +172,21 @@ module.exports.run = async (client, message, args, level, Discord) => {
         memberID = message.author.id;
       }
 
-      if ((args[0].toLowerCase() === 'mod' && level >= 2) ? args.length === 2 : args.length === 1) {
+      if (args.length === 1) {
         return client.error(message.channel, 'No Value To Remove!', 'Please supply the value you would like to remove! (islandname/fruit/charactername/hemisphere/profilename/friendcode)');
       }
-      switch ((args[0].toLowerCase() === 'mod' && level >= 2) ? args[2].toLowerCase() : args[1].toLowerCase()) {
+      switch (args[1].toLowerCase()) {
         case 'islandname':
         case 'island':
         case 'in':
         case 'townname':
         case 'tn':
-          client.userDB.set(memberID, '', 'island.islandName');
+          client.userDB.set(message.author.id, '', 'island.islandName');
           return client.success(message.channel, 'Successfully cleared the name of your island!', 'To set your island name again, use `.island islandname <name>`!');
         case 'fruit':
         case 'fr':
         case 'f':
-          client.userDB.set(memberID, '', 'island.fruit');
+          client.userDB.set(message.author.id, '', 'island.fruit');
           return client.success(message.channel, "Successfully cleared your island's native fruit!", "To set your island's native fruit again, use `.island fruit <fruit>`!");
         case 'charactername':
         case 'character':
@@ -195,32 +195,32 @@ module.exports.run = async (client, message, args, level, Discord) => {
         case 'villagername':
         case 'vn':
         case 'islandername':
-          client.userDB.set(memberID, '', 'island.characterName');
+          client.userDB.set(message.author.id, '', 'island.characterName');
           return client.success(message.channel, "Successfully cleared your character's name!", "To set your character's name again, use `.island charactername <name>`!");
         case 'hemisphere':
         case 'hem':
         case 'hm':
         case 'hemi':
-          client.userDB.set(memberID, '', 'island.hemisphere');
+          client.userDB.set(message.author.id, '', 'island.hemisphere');
           return client.success(message.channel, 'Successfully cleared the hemisphere for your island!', 'To set the hemisphere for your island again, use `.island hemisphere <hemisphere>`!');
         case 'profilename':
         case 'profile':
         case 'pn':
         case 'switchname':
         case 'sn':
-          client.userDB.set(memberID, '', 'island.profileName');
+          client.userDB.set(message.author.id, '', 'island.profileName');
           return client.success(message.channel, 'Successfully cleared your Switch profile name!', 'To set your Switch profile name again, use `.island profilename <name>`!');
         case 'friendcode':
         case 'fc':
         case 'code':
-          if (client.userDB.has(memberID, 'friendcode')) {
-            client.userDB.delete(memberID, 'friendcode');
+          if (client.userDB.has(message.author.id, 'friendcode')) {
+            client.userDB.delete(message.author.id, 'friendcode');
             return client.success(message.channel, 'Successfully cleared your Switch friend code!', 'To set your Switch friend code again, use `.island friendcode <code>`!');
           }
           return client.error(message.channel, 'No Friend Code To Remove!', 'You did not have a friend code in the database. You can set it by typing \`.fc set <code>\`!');
         case 'all':
         case 'every':
-          client.userDB.set(memberID, {
+          client.userDB.set(message.author.id, {
             islandName: '',
             fruit: '',
             characterName: '',
@@ -287,15 +287,7 @@ module.exports.conf = {
   guildOnly: true,
   aliases: ['is'],
   permLevel: 'User',
-  blockedChannels: [
-    '538938170822230026',
-    '494376688877174785',
-    '661330633510879274',
-    '651611409272274954',
-    '494467780293427200',
-    '669696796024504341',
-    '690093605821480980',
-  ],
+  blockedChannels: ['538938170822230026', '661330633510879274'],
 };
 
 module.exports.help = {

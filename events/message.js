@@ -28,15 +28,25 @@ module.exports = async (client, message) => {
   // Anti Mention Spam
   if (message.mentions.members && message.mentions.members.size > 10) {
     // They mentioned more than 10 members, automute them for 10 mintues.
-    if (message.member) {
+    if (message.member && client.permLevel(message)[1] < 2) {
       // Mute
       message.member.roles.add('495854925054607381', 'Mention Spam');
       // Delete Message
-      message.delete();
+      if (!message.deleted) {
+        message.delete();
+      }
       // Schedule unmute
-      setTimeout(() => (message.member.roles.remove('495854925054607381', 'Unmuted after 10 mintues for Mention Spam')), 600000);
+      setTimeout(() => {
+        try {
+          message.member.roles.remove('495854925054607381', 'Unmuted after 10 mintues for Mention Spam');
+        } catch (error) {
+          // Couldn't unmute, oh well
+          console.error('Failed to unmute after Anit Mention Spam');
+          console.error(error);
+        }
+      }, 600000);
       // Notify mods so they may ban if it was a raider.
-      message.guild.channels.cache.get(client.getSettings(message.guild).staffChat).send(`**Mass Mention Attempt!**
+      message.guild.channels.cache.get(client.config.staffChat).send(`**Mass Mention Attempt!**
 <@&495865346591293443> <@&494448231036747777>
 The member **${message.author.tag}** just mentioned ${message.mentions.members.size} members and was automatically muted for 10 minutes!
 They have been a member of the server for ${client.humanTimeBetween(Date.now(), message.member.joinedTimestamp)}.
@@ -45,17 +55,23 @@ If you believe this member is a mention spammer bot, please ban them with the co
     }
   }
 
-  const settings = client.getSettings(message.guild);
+  // Delete non-image containing messages from pattern channels
+  if (message.guild && client.config.imageOnlyChannels.includes(message.channel.id)
+      && message.attachments.size === 0  && !(/https?:\/\//i.test(message.content)) && client.permLevel(message)[1] < 2) {
+    // Message is in the guild's image only channels, without an image or link in it, and is not a mod's message, so delete
+    if (!message.deleted && message.deletable) message.delete();
+    return;
+  }
 
   // Ignore messages not starting with the prefix
-  if (message.content.indexOf(settings.prefix) !== 0) {
+  if (message.content.indexOf(client.config.prefix) !== 0) {
     return;
   }
 
   const level = client.permLevel(message);
 
   // Our standard argument/command name definition.
-  const args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
+  const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
 
   // Grab the command data and aliases from the client.commands Enmap
@@ -90,7 +106,7 @@ If you believe this member is a mention spammer bot, please ban them with the co
   }
 
   if (cmd.conf.args && (cmd.conf.args > args.length)) {
-    return client.error(message.channel, 'Invalid Arguments!', `The proper usage for this command is \`${settings.prefix}${cmd.help.usage}\`! For more information, please see the help command by using \`${settings.prefix}help ${cmd.help.name}\`!`);
+    return client.error(message.channel, 'Invalid Arguments!', `The proper usage for this command is \`${client.config.prefix}${cmd.help.usage}\`! For more information, please see the help command by using \`${client.config.prefix}help ${cmd.help.name}\`!`);
   }
 
   if (!cooldowns.has(cmd.help.name)) {
