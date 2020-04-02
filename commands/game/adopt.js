@@ -27,7 +27,6 @@ module.exports.run = (client, message, args) => {
       }
       return client.error(message.channel, 'Not Signed Up!', 'You are not signed up to adopt any villagers!\nYou can sign up to adopt any villager by using the `.adopt <villager name>` command.');
     case 'delete':
-    case 'del':
     case 'd':
     case 'cancel':
     case 'remove':
@@ -36,7 +35,11 @@ module.exports.run = (client, message, args) => {
         return client.error(message.channel, 'No Villager Name Given!', 'You must supply a villager name to be removed from the adoption list for that villager!');
       }
 
+<<<<<<< HEAD
       villager = findBest(args.slice(1).join(' '), client.villagerDB.keyArray()).bestMatch;
+=======
+      const villager = findBest(args.slice(1).join(' ').toProperCase(), client.villagerDB.keyArray()).bestMatch;
+>>>>>>> devbranchpull/develop
       if (villager.rating > 0.1) {
         // Remove user ID of author from the list of adopters for the given villager if they are on the list already
         if (client.villagerDB.getProp(villager.target, 'adopters').includes(message.author.id)) {
@@ -46,13 +49,39 @@ module.exports.run = (client, message, args) => {
         return client.error(message.channel, 'Not on the List!', `You were not on the list to adopt **${villager.target}**!`);
       }
       return client.error(message.channel, 'Incorrect Villager Name!', 'Could not find a villager with that name!');
+<<<<<<< HEAD
     default:
+=======
+    }
+    case 'check':
+    case 'peek': {
+      if (args.length === 1) {
+        // No villager name was given
+        return client.error(message.channel, 'No Villager Name Given!', 'You must supply a villager name to check the adoption list for that villager!');
+      }
+
+      const villager = findBest(args.slice(1).join(' ').toProperCase(), client.villagerDB.keyArray()).bestMatch;
+      if (villager.rating > 0.1) {
+        const vilAdoptersLength = client.villagerDB.getProp(villager.target, 'adopters').length;
+        if (vilAdoptersLength > 0) {
+          return message.channel.send(`There are **${vilAdoptersLength}** members who wish to adopt **${villager.target}**!`);
+        }
+        return message.channel.send(`No one is currently on the list to adopt **${villager.target}**!`);
+      }
+      return client.error(message.channel, 'Incorrect Villager Name!', 'Could not find a villager with that name!');
+    }
+    default: {
+>>>>>>> devbranchpull/develop
       if (args.length === 0) {
         // No villager name was given
         return client.error(message.channel, 'No Villager Name Given!', 'You must supply a villager name to be added to the adoption list for that villager!');
       }
 
+<<<<<<< HEAD
       villager = findBest(args.join(' '), client.villagerDB.keyArray()).bestMatch;
+=======
+      const villager = findBest(args.join(' ').toProperCase(), client.villagerDB.keyArray()).bestMatch;
+>>>>>>> devbranchpull/develop
       if (villager.rating > 0.1) {
         const vilAdopters = client.villagerDB.get(villager.target).adopters;
         if (!vilAdopters.includes(message.author.id)) {
@@ -70,6 +99,10 @@ module.exports.conf = {
   guildOnly: false,
   aliases: ['ad'],
   permLevel: 'User',
+<<<<<<< HEAD
+=======
+  allowedChannels: ['549858839994826753'],
+>>>>>>> devbranchpull/develop
 };
 
 module.exports.help = {
