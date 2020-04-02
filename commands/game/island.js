@@ -172,8 +172,12 @@ module.exports.run = async (client, message, args, level, Discord) => {
         memberID = message.author.id;
       }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
+=======
+      
+>>>>>>> parent of 5a7f403... updated code from main branch/ launguage
 =======
       
 >>>>>>> parent of 5a7f403... updated code from main branch/ launguage

@@ -28,10 +28,14 @@ module.exports.run = (client, message, args) => {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       villager = findBest(args.slice(1).join(' '), client.villagerDB.keyArray()).bestMatch;
 =======
       const villager = findBest(args.slice(1).join(' ').toProperCase(), client.villagerDB.keyArray()).bestMatch;
 >>>>>>> devbranchpull/develop
+=======
+      const villager = findBest(args.slice(1).join(' '), client.villagerDB.keyArray()).bestMatch;
+>>>>>>> parent of 5a7f403... updated code from main branch/ launguage
 =======
       const villager = findBest(args.slice(1).join(' '), client.villagerDB.keyArray()).bestMatch;
 >>>>>>> parent of 5a7f403... updated code from main branch/ launguage
@@ -44,6 +48,7 @@ module.exports.run = (client, message, args) => {
         return client.error(message.channel, 'Not on the List!', `You were not on the list to adopt **${villager.target}**!`);
       }
       return client.error(message.channel, 'Incorrect Villager Name!', 'Could not find a villager with that name!');
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     default:
@@ -72,6 +77,10 @@ module.exports.run = (client, message, args) => {
     }
     default: {
 >>>>>>> parent of 5a7f403... updated code from main branch/ launguage
+=======
+    }
+    default: {
+>>>>>>> parent of 5a7f403... updated code from main branch/ launguage
       if (args.length === 0) {
         // No villager name was given
         return client.error(message.channel, 'No Villager Name Given!', 'You must supply a villager name to be added to the adoption list for that villager!');
@@ -79,10 +88,14 @@ module.exports.run = (client, message, args) => {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       villager = findBest(args.join(' '), client.villagerDB.keyArray()).bestMatch;
 =======
       const villager = findBest(args.join(' ').toProperCase(), client.villagerDB.keyArray()).bestMatch;
 >>>>>>> devbranchpull/develop
+=======
+      const villager = findBest(args.join(' '), client.villagerDB.keyArray()).bestMatch;
+>>>>>>> parent of 5a7f403... updated code from main branch/ launguage
 =======
       const villager = findBest(args.join(' '), client.villagerDB.keyArray()).bestMatch;
 >>>>>>> parent of 5a7f403... updated code from main branch/ launguage
@@ -106,9 +119,13 @@ module.exports.conf = {
   permLevel: 'User',
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   allowedChannels: ['549858839994826753'],
 >>>>>>> devbranchpull/develop
+=======
+  blockedChannels: ['669696796024504341'],
+>>>>>>> parent of 5a7f403... updated code from main branch/ launguage
 =======
   blockedChannels: ['669696796024504341'],
 >>>>>>> parent of 5a7f403... updated code from main branch/ launguage

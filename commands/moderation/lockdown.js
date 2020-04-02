@@ -6,12 +6,17 @@ module.exports.run = (client, message, args, level, Discord) => {
       client.success(message.channel, 'Server Locked Down!', 'No one can send messages until the server is unlocked! To unlock the server, use \`.unlockdown\`.');
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       const generalChat = guild.channels.cache.get('5152144834604433408');
       const acnhChat = guild.channels.cache.get('680106844420571174');
 =======
       const generalChat = message.guild.channels.cache.get('538938170822230026');
       const acnhChat = message.guild.channels.cache.get('494376688877174785');
 >>>>>>> devbranchpull/develop
+=======
+      const generalChat = guild.channels.cache.get('538938170822230026');
+      const acnhChat = guild.channels.cache.get('494376688877174785');
+>>>>>>> parent of 5a7f403... updated code from main branch/ launguage
 =======
       const generalChat = guild.channels.cache.get('538938170822230026');
       const acnhChat = guild.channels.cache.get('494376688877174785');
